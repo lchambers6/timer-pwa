@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     selectTimer(timerType) {
-      this.$emit('setTimerType', timerType)
+      this.$emit('selectTimerType', timerType)
     },
   },
 }

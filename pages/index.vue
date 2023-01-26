@@ -1,14 +1,6 @@
 <template>
-  <div class="container grid h-screen place-items-center">
-    <Landing
-      v-if="!timerType"
-      :timerTypes="timerTypes"
-      @setTimerType="setTimerType"
-    />
-    <TimerPage
-      v-else-if="timerType === 'count down timer'"
-      @setTimerType="setTimerType"
-    />
+  <div class="grid h-screen place-items-center">
+    <Landing :timerTypes="timerTypes" @selectTimerType="selectTimerType" />
   </div>
 </template>
 
@@ -18,12 +10,12 @@ export default {
   data() {
     return {
       timerType: '',
-      timerTypes: ['count down timer', 'tabata', 'stopwatch'],
+      timerTypes: ['count-down-timer', 'tabata', 'stopwatch'],
     }
   },
   methods: {
-    setTimerType(timerType) {
-      this.timerType = timerType
+    selectTimerType(timerType) {
+      this.$router.push({ name: timerType })
     },
   },
 }
