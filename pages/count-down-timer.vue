@@ -1,24 +1,39 @@
 <template>
   <div class="h-screen">
-    <div class="flex justify-end p-5 pt-1">
-      <BackButton />
+    <div class="bg-sky-500">
+      <div class="flex justify-end pr-3 pt-1">
+        <button class="mr-1 my-3" @click="backClicked">
+          <BackIcon />
+        </button>
+        <button class="mr-1 my-3" v-if="!settings" @click="settings = true">
+          <GearIcon />
+        </button>
+      </div>
+      <div class="text-center bg-sky-500 mt-2 mb-8 pt-0 pb-6">
+        <h1 class="font-sans font-semibold text-3xl text-white">
+          Count Down Timer
+        </h1>
+      </div>
     </div>
-    <div class="grid place-items-center">
-      <h1 class="font-sans font-semibold text-3xl mb-10 text-gray-600">
-        Count Down Timer
-      </h1>
-    </div>
+    <CountDownSettings v-if="settings" />
+    <CountDownTimer v-else />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'CountDownTimer',
+  name: 'CountDownTimerPage',
   data() {
-    return {
-      initialTime: 0,
-    }
+    return { settings: false }
   },
-  methods: {},
+  methods: {
+    backClicked() {
+      if (this.settings) {
+        this.settings = !this.settings
+      } else {
+        this.$router.push('/')
+      }
+    },
+  },
 }
 </script>

@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 body {
-  background: #313131;
+  background: #1e293b;
   color: #f8f8f8;
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
