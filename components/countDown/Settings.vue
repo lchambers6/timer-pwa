@@ -1,10 +1,23 @@
 <template>
-  <div class="grid h-screen place-items-center">
-    <div class="grid place-items-center">
-      <h1 class="font-sans font-semibold text-3xl mb-10 text-gray-600">
-        Settings
-      </h1>
-      <div></div>
+  <div class="grid place-items-center">
+    <div>
+      <h3>Marker:</h3>
+      <div>
+        <p>Hour:</p>
+        <p v-for="(hour, index) in marker.hour" :key="`hour-${index}`">
+          {{ hour }}
+        </p>
+        <p>minute:</p>
+        <p v-for="(minute, index) in marker.minute" :key="`minute-${index}`">
+          {{ minute }}
+        </p>
+        <p>second:</p>
+        <p v-for="(second, index) in marker.second" :key="`second-${index}`">
+          {{ second }}
+        </p>
+      </div>
+      <h3>Interval:</h3>
+      <h3>Counter:</h3>
     </div>
   </div>
 </template>
@@ -28,5 +41,16 @@ export default {
     }
   },
   methods: {},
+  mounted() {
+    this.$settingsDB
+      .collection('countDownTimerSettings')
+      .doc({ timerType: 'countDownTimer' })
+      .get()
+      .then((countDownTimerSettings) => {
+        this.marker = countDownTimerSettings.marker
+        this.interval = countDownTimerSettings.interval
+        this.counter = countDownTimerSettings.counter
+      })
+  },
 }
 </script>

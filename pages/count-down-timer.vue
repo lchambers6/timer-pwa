@@ -5,7 +5,10 @@
         <button class="mr-1 my-3" @click="backClicked">
           <BackIcon />
         </button>
-        <button class="mr-1 my-3" v-if="!settings" @click="settings = true">
+        <button
+          :class="{ 'mr-1': true, 'my-3': true, 'fill-white': !settings, 'fill-sky-600': settings }"
+          @click="settings = true"
+        >
           <GearIcon />
         </button>
       </div>
