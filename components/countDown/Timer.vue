@@ -1,44 +1,57 @@
 <template>
-  <div class="grid place-items-center">
-    <div :class="{'radial-progress': true,'text-sky-500': remainingDuration > 0, 'text-transparent': remainingDuration === 0 }" :style="styling">
-      <div class="flex w-50 p-10 z-0">
-        <div>
-          <input
-            :disabled="timerStarted"
-            type="number"
-            min="1"
-            max="24"
-            :placeholder="formattedHours"
-            v-model="hours"
-            class="input bg-slate-800 w-full max-w-xs text-center text-white disabled:text-white disabled:bg-slate-800"
-          />
-          <p class="text-white pt-2 uppercase">Hour</p>
-        </div>
-        <div class="divider-horizontal mx-1"></div>
-        <div>
-          <input
-            :disabled="timerStarted"
-            type="number"
-            min="1"
-            max="60"
-            :placeholder="formattedMinutes"
-            v-model="minutes"
-            class="input bg-slate-800 w-full max-w-xs text-center text-white disabled:text-white disabled:bg-slate-800"
-          />
-          <p class="text-white pt-2 uppercase">Minute</p>
-        </div>
-        <div class="divider-horizontal mx-1"></div>
-        <div>
-          <input
-            :disabled="timerStarted"
-            type="number"
-            min="1"
-            max="60"
-            :placeholder="formattedSeconds"
-            v-model="seconds"
-            class="input bg-slate-800 w-full max-w-xs text-center text-white disabled:text-white disabled:bg-slate-800"
-          />
-          <p class="text-white pt-2 uppercase">Second</p>
+  <div class="grid place-items-center mt-6">
+    <div
+      class="relative radial-progress text-slate-600"
+      style="--value: 100; --size: 18rem; --thickness: 6px"
+    >
+      <div
+        :class="{
+          absolute: true,
+          'radial-progress': true,
+          'text-sky-500': remainingDuration > 0,
+          'text-transparent': remainingDuration === 0,
+        }"
+        :style="styling"
+      >
+        <div class="flex w-50 p-10 z-0">
+          <div>
+            <input
+              :disabled="timerStarted"
+              type="number"
+              min="1"
+              max="24"
+              :placeholder="formattedHours"
+              v-model="hours"
+              class="input bg-slate-800 w-full max-w-xs text-center text-white disabled:text-white disabled:bg-slate-800"
+            />
+            <p class="text-white pt-2 uppercase">Hour</p>
+          </div>
+          <div class="divider-horizontal mx-1"></div>
+          <div>
+            <input
+              :disabled="timerStarted"
+              type="number"
+              min="1"
+              max="60"
+              :placeholder="formattedMinutes"
+              v-model="minutes"
+              class="input bg-slate-800 w-full max-w-xs text-center text-white disabled:text-white disabled:bg-slate-800"
+            />
+            <p class="text-white pt-2 uppercase">Minute</p>
+          </div>
+          <div class="divider-horizontal mx-1"></div>
+          <div>
+            <input
+              :disabled="timerStarted"
+              type="number"
+              min="1"
+              max="60"
+              :placeholder="formattedSeconds"
+              v-model="seconds"
+              class="input bg-slate-800 w-full max-w-xs text-center text-white disabled:text-white disabled:bg-slate-800"
+            />
+            <p class="text-white pt-2 uppercase">Second</p>
+          </div>
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@
           <GearIcon />
         </button>
       </div>
-      <div class="text-center bg-sky-500 mt-2 mb-8 pt-0 pb-6">
+      <div class="text-center bg-sky-500 mt-2 mb-2 pt-0 pb-6">
         <h1 class="font-sans font-semibold text-3xl text-white">
           Count Down Timer
         </h1>

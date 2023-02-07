@@ -1,23 +1,111 @@
 <template>
-  <div class="grid place-items-center">
-    <div>
-      <h3>Marker:</h3>
-      <div>
-        <p>Hour:</p>
-        <p v-for="(hour, index) in marker.hour" :key="`hour-${index}`">
-          {{ hour }}
-        </p>
-        <p>minute:</p>
-        <p v-for="(minute, index) in marker.minute" :key="`minute-${index}`">
-          {{ minute }}
-        </p>
-        <p>second:</p>
-        <p v-for="(second, index) in marker.second" :key="`second-${index}`">
-          {{ second }}
-        </p>
+  <div>
+    <div class="grid place-items-center">
+      <h1 class="font-sans font-semibold text-3xl my-2 text-white">Settings</h1>
+    </div>
+    <div class="collapse">
+      <input type="checkbox" v-model="markerChecked" />
+      <div class="collapse-title text-xl font-medium">Marker</div>
+      <div class="collapse-content">
+        <div class="overflow-x-auto">
+          <table class="table w-full">
+            <tbody>
+              <tr>
+                <th class="bg-slate-800">Hour</th>
+                <td
+                  class="bg-slate-800"
+                  v-for="(hour, index) in marker.hour"
+                  :key="`hour-${index}`"
+                >
+                  {{ hour }}
+                </td>
+              </tr>
+              <tr>
+                <th class="bg-slate-800">Minute</th>
+                <td
+                  class="bg-slate-800"
+                  v-for="(minute, index) in marker.minute"
+                  :key="`minute-${index}`"
+                >
+                  {{ minute }}
+                </td>
+              </tr>
+              <tr>
+                <th class="bg-slate-800">Second</th>
+                <td
+                  class="bg-slate-800"
+                  v-for="(second, index) in marker.second"
+                  :key="`second-${index}`"
+                >
+                  {{ second }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <h3>Interval:</h3>
-      <h3>Counter:</h3>
+    </div>
+    <div class="divider"></div>
+    <div class="collapse">
+      <input type="checkbox" v-model="intervalChecked" />
+      <div class="collapse-title text-xl font-medium">Interval</div>
+      <div class="collapse-content">
+        <div class="overflow-x-auto">
+          <table class="table w-full">
+            <tbody>
+              <tr>
+                <th class="bg-slate-800">Hour</th>
+                <td
+                  class="bg-slate-800"
+                  v-for="(hour, index) in interval.hour"
+                  :key="`hour-${index}`"
+                >
+                  {{ hour }}
+                </td>
+              </tr>
+              <tr>
+                <th class="bg-slate-800">Minute</th>
+                <td
+                  class="bg-slate-800"
+                  v-for="(minute, index) in interval.minute"
+                  :key="`minute-${index}`"
+                >
+                  {{ minute }}
+                </td>
+              </tr>
+              <tr>
+                <th class="bg-slate-800">Second</th>
+                <td
+                  class="bg-slate-800"
+                  v-for="(second, index) in interval.second"
+                  :key="`second-${index}`"
+                >
+                  {{ second }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="collapse">
+      <input type="checkbox" v-model="counterChecked" />
+      <div class="collapse-title text-xl font-medium">Counter</div>
+      <div class="collapse-content">
+        <div class="overflow-x-auto">
+          <table class="table w-full">
+            <tbody>
+              <tr>
+                <th class="bg-slate-800">{{ counter.unit }}</th>
+                <td class="bg-slate-800">
+                  {{ counter.value }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -27,18 +115,33 @@ export default {
   name: 'CountDownSettings',
   data() {
     return {
-      marker: {
-        hour: [1],
-        minute: [30, 15, 10, 5, 1],
-        second: [45, 30, 15, 10, 5],
-      },
-      interval: {
-        hour: [1],
-        minute: [30, 15, 10, 5, 1],
-        second: [45, 30, 15, 10, 5],
-      },
-      counter: { value: 10, unit: 'seconds' },
+      marker: {},
+      interval: {},
+      counter: {},
+      markerChecked: false,
+      intervalChecked: false,
+      counterChecked: false,
     }
+  },
+  watch: {
+    markerChecked() {
+      if (this.markerChecked) {
+        this.intervalChecked = false
+        this.counterChecked = false
+      }
+    },
+    intervalChecked() {
+      if (this.intervalChecked) {
+        this.markerChecked = false
+        this.counterChecked = false
+      }
+    },
+    counterChecked() {
+      if (this.counterChecked) {
+        this.intervalChecked = false
+        this.markerChecked = false
+      }
+    },
   },
   methods: {},
   mounted() {
