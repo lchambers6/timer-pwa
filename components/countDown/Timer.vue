@@ -160,16 +160,19 @@ export default {
           this.$settingsDB.collection('countDownTimerSettings').add({
             timerType: 'countDownTimer',
             marker: {
-              hour: [1],
-              minute: [30, 15, 10, 5, 1],
-              second: [45, 30, 15, 10, 5],
+              hour: { 1: false },
+              minute: {
+                45: false,
+                30: false,
+                15: false,
+                10: false,
+                5: false,
+                1: false,
+              },
+              second: { 45: false, 30: false, 15: false, 10: false, 5: false },
             },
-            interval: {
-              hour: [1],
-              minute: [30, 15, 10, 5, 1],
-              second: [45, 30, 15, 10, 5],
-            },
-            counter: { value: 10, unit: 'seconds' },
+
+            counter: { value: 10, unit: 'second' },
           })
         } else {
           console.log(countDownTimerSettings)

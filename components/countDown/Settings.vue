@@ -1,91 +1,85 @@
 <template>
   <div>
     <div class="grid place-items-center">
-      <h1 class="font-sans font-semibold text-3xl my-2 text-white">Settings</h1>
+      <h1 class="font-sans font-semibold text-2xl my- text-white">Settings</h1>
     </div>
     <div class="collapse">
       <input type="checkbox" v-model="markerChecked" />
-      <div class="collapse-title text-xl font-medium">Marker</div>
+      <div class="collapse-title text-xl font-medium">Notification</div>
       <div class="collapse-content">
-        <div class="overflow-x-auto">
-          <table class="table w-full">
-            <tbody>
-              <tr>
-                <th class="bg-slate-800">Hour</th>
-                <td
-                  class="bg-slate-800"
-                  v-for="(hour, index) in marker.hour"
-                  :key="`hour-${index}`"
-                >
-                  {{ hour }}
-                </td>
-              </tr>
-              <tr>
-                <th class="bg-slate-800">Minute</th>
-                <td
-                  class="bg-slate-800"
-                  v-for="(minute, index) in marker.minute"
-                  :key="`minute-${index}`"
-                >
-                  {{ minute }}
-                </td>
-              </tr>
-              <tr>
-                <th class="bg-slate-800">Second</th>
-                <td
-                  class="bg-slate-800"
-                  v-for="(second, index) in marker.second"
-                  :key="`second-${index}`"
-                >
-                  {{ second }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="divider"></div>
-    <div class="collapse">
-      <input type="checkbox" v-model="intervalChecked" />
-      <div class="collapse-title text-xl font-medium">Interval</div>
-      <div class="collapse-content">
-        <div class="overflow-x-auto">
-          <table class="table w-full">
-            <tbody>
-              <tr>
-                <th class="bg-slate-800">Hour</th>
-                <td
-                  class="bg-slate-800"
-                  v-for="(hour, index) in interval.hour"
-                  :key="`hour-${index}`"
-                >
-                  {{ hour }}
-                </td>
-              </tr>
-              <tr>
-                <th class="bg-slate-800">Minute</th>
-                <td
-                  class="bg-slate-800"
-                  v-for="(minute, index) in interval.minute"
-                  :key="`minute-${index}`"
-                >
-                  {{ minute }}
-                </td>
-              </tr>
-              <tr>
-                <th class="bg-slate-800">Second</th>
-                <td
-                  class="bg-slate-800"
-                  v-for="(second, index) in interval.second"
-                  :key="`second-${index}`"
-                >
-                  {{ second }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th class="bg-slate-800">Hour</th>
+              <td class="bg-slate-800">
+                <div class="btn-group">
+                  <button
+                    v-for="(hour, name, index) in marker.hour"
+                    :key="`hour-${index}`"
+                    :class="{
+                      btn: true,
+                      'bg-sky-500': hour,
+                      'text-white': true,
+                      'w-10': true,
+                      'hover:bg-slate-600': !hour,
+                      'hover:bg-sky-400': hour,
+                      'bg-slate-700': !hour,
+                    }"
+                    @click="selectMarker('hour', name)"
+                  >
+                    {{ name }}
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th class="bg-slate-800">Minute</th>
+              <td class="bg-slate-800">
+                <div class="btn-group">
+                  <button
+                    v-for="(minute, name, index) in marker.minute"
+                    :key="`minute-${index}`"
+                    :class="{
+                      btn: true,
+                      'bg-sky-500': minute,
+                      'text-white': true,
+                      'w-10': true,
+                      'hover:bg-slate-600': !minute,
+                      'hover:bg-sky-400': minute,
+                      'bg-slate-700': !minute,
+                    }"
+                    @click="selectMarker('minute', name)"
+                  >
+                    {{ name }}
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th class="bg-slate-800">Second</th>
+              <td class="bg-slate-800">
+                <div class="btn-group">
+                  <button
+                    v-for="(second, name, index) in marker.second"
+                    :key="`second-${index}`"
+                    :class="{
+                      btn: true,
+                      'bg-sky-500': second,
+                      'text-white': true,
+                      'w-10': true,
+                      'hover:bg-slate-600': !second,
+                      'hover:bg-sky-400': second,
+                      'bg-slate-700': !second,
+                    }"
+                    @click="selectMarker('second', name)"
+                  >
+                    {{ name }}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="divider"></div>
@@ -93,18 +87,16 @@
       <input type="checkbox" v-model="counterChecked" />
       <div class="collapse-title text-xl font-medium">Counter</div>
       <div class="collapse-content">
-        <div class="overflow-x-auto">
-          <table class="table w-full">
-            <tbody>
-              <tr>
-                <th class="bg-slate-800">{{ counter.unit }}</th>
-                <td class="bg-slate-800">
-                  {{ counter.value }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <table class="table w-full">
+          <tbody>
+            <tr>
+              <th class="bg-slate-800">{{ counter.unit }}</th>
+              <td class="bg-slate-800">
+                {{ counter.value }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -116,34 +108,24 @@ export default {
   data() {
     return {
       marker: {},
-      interval: {},
       counter: {},
-      markerChecked: false,
-      intervalChecked: false,
-      counterChecked: false,
+      markerChecked: true,
+      counterChecked: true,
     }
   },
-  watch: {
-    markerChecked() {
-      if (this.markerChecked) {
-        this.intervalChecked = false
-        this.counterChecked = false
-      }
-    },
-    intervalChecked() {
-      if (this.intervalChecked) {
-        this.markerChecked = false
-        this.counterChecked = false
-      }
-    },
-    counterChecked() {
-      if (this.counterChecked) {
-        this.intervalChecked = false
-        this.markerChecked = false
-      }
+  methods: {
+    selectMarker(unit, value) {
+      this.marker[unit][value] = true
+      this.$settingsDB
+        .collection('countDownTimerSettings')
+        .doc({ timerType: 'countDownTimer' })
+        .update({
+          timerType: 'countDownTimer',
+          marker: this.marker,
+          counter: this.counter,
+        })
     },
   },
-  methods: {},
   mounted() {
     this.$settingsDB
       .collection('countDownTimerSettings')
@@ -151,9 +133,9 @@ export default {
       .get()
       .then((countDownTimerSettings) => {
         this.marker = countDownTimerSettings.marker
-        this.interval = countDownTimerSettings.interval
         this.counter = countDownTimerSettings.counter
       })
+    console.log(this.marker)
   },
 }
 </script>
