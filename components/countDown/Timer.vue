@@ -172,7 +172,7 @@ export default {
               second: { 45: false, 30: false, 15: false, 10: false, 5: false },
             },
 
-            counter: { value: 10, unit: 'second' },
+            counter: 5,
           })
         } else {
           console.log(countDownTimerSettings)

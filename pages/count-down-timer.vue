@@ -6,7 +6,7 @@
           <BackIcon />
         </button>
         <button
-          :class="{ 'mr-1': true, 'my-3': true, 'fill-white': !settings, 'fill-sky-600': settings }"
+          :class="{ 'mr-1': true, 'my-3': true, 'fill-white': !settings, 'fill-sky-700': settings }"
           @click="settings = true"
         >
           <GearIcon />
