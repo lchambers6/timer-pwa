@@ -11,20 +11,20 @@
           <td class="bg-slate-800">
             <div class="btn-group">
               <button
-                v-for="(hour, name, index) in marker.hour"
+                v-for="(hourValue, index) in markerOptions.hour"
                 :key="`hour-${index}`"
                 :class="{
                   btn: true,
-                  'bg-sky-500': hour,
                   'text-white': true,
                   'w-10': true,
-                  'hover:bg-slate-600': !hour,
-                  'hover:bg-sky-400': hour,
-                  'bg-slate-700': !hour,
+                  'bg-sky-500': marker.hour.indexOf(hourValue) > -1,
+                  'hover:bg-sky-400': marker.hour.indexOf(hourValue) > -1,
+                  'bg-slate-700': marker.hour.indexOf(hourValue) < 0,
+                  'hover:bg-slate-600': marker.hour.indexOf(hourValue) < 0,
                 }"
-                @click="updateMarkerSettings('hour', name)"
+                @click="updateMarkerSettings('hour', hourValue)"
               >
-                {{ name }}
+                {{ hourValue }}
               </button>
             </div>
           </td>
@@ -34,20 +34,20 @@
           <td class="bg-slate-800">
             <div class="btn-group">
               <button
-                v-for="(minute, name, index) in marker.minute"
+                v-for="(minuteValue, index) in markerOptions.minute"
                 :key="`minute-${index}`"
                 :class="{
                   btn: true,
-                  'bg-sky-500': minute,
                   'text-white': true,
                   'w-10': true,
-                  'hover:bg-slate-600': !minute,
-                  'hover:bg-sky-400': minute,
-                  'bg-slate-700': !minute,
+                  'bg-sky-500': marker.minute.indexOf(minuteValue) > -1,
+                  'hover:bg-sky-400': marker.minute.indexOf(minuteValue) > -1,
+                  'bg-slate-700': marker.minute.indexOf(minuteValue) < 0,
+                  'hover:bg-slate-600': marker.minute.indexOf(minuteValue) < 0,
                 }"
-                @click="updateMarkerSettings('minute', name)"
+                @click="updateMarkerSettings('minute', minuteValue)"
               >
-                {{ name }}
+                {{ minuteValue }}
               </button>
             </div>
           </td>
@@ -57,20 +57,20 @@
           <td class="bg-slate-800">
             <div class="btn-group">
               <button
-                v-for="(second, name, index) in marker.second"
+                v-for="(secondValue, index) in markerOptions.second"
                 :key="`second-${index}`"
                 :class="{
                   btn: true,
-                  'bg-sky-500': second,
                   'text-white': true,
                   'w-10': true,
-                  'hover:bg-slate-600': !second,
-                  'hover:bg-sky-400': second,
-                  'bg-slate-700': !second,
+                  'bg-sky-500': marker.second.indexOf(secondValue) > -1,
+                  'hover:bg-sky-400': marker.second.indexOf(secondValue) > -1,
+                  'bg-slate-700': marker.second.indexOf(secondValue) < 0,
+                  'hover:bg-slate-600': marker.second.indexOf(secondValue) < 0,
                 }"
-                @click="updateMarkerSettings('second', name)"
+                @click="updateMarkerSettings('second', secondValue)"
               >
-                {{ name }}
+                {{ secondValue }}
               </button>
             </div>
           </td>
@@ -109,7 +109,16 @@ export default {
   name: 'CountDownSettings',
   data() {
     return {
-      marker: {},
+      marker: {
+        hour: [],
+        minute: [],
+        second: [],
+      },
+      markerOptions: {
+        hour: [1],
+        minute: [1, 5, 10, 15, 30, 45],
+        second: [5, 10, 15, 30, 45],
+      },
       counter: 5,
       counterOptions: [5, 10, 15, 30, 45],
       markerChecked: true,
@@ -118,7 +127,12 @@ export default {
   },
   methods: {
     updateMarkerSettings(unit, value) {
-      this.marker[unit][value] = true
+      let arrayIndex = this.marker[unit].indexOf(value)
+      if (arrayIndex > -1) {
+        this.marker[unit].splice(arrayIndex, 1)
+      } else {
+        this.marker[unit].push(value)
+      }
       this.saveSettings()
     },
     saveSettings() {
@@ -141,7 +155,6 @@ export default {
         this.marker = countDownTimerSettings.marker
         this.counter = countDownTimerSettings.counter
       })
-    console.log(this.marker)
   },
 }
 </script>

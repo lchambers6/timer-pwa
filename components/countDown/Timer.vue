@@ -91,6 +91,14 @@ export default {
       hours: 0,
       minutes: 0,
       seconds: 0,
+      counterAudio: null,
+      markerAudio: null,
+      marker: {
+        hour: [],
+        minute: [],
+        second: [],
+      },
+      counter: 5,
     }
   },
   computed: {
@@ -109,11 +117,45 @@ export default {
       }; --size:18rem; --thickness: 6px;`
     },
   },
+
   methods: {
+    playSound(soundName) {
+      this[soundName].play()
+    },
     formatTimes() {
       this.hours = Math.floor(this.remainingDuration / 3600)
       this.minutes = Math.floor(this.remainingDuration / 60)
       this.seconds = this.remainingDuration % 60
+      if (this.marker.hour.indexOf(this.hours) > -1 && this.seconds === 0) {
+        this.playSound('hourMarkerAudio')
+      }
+      if (this.marker.minute.indexOf(this.minutes) > -1 && this.seconds === 0) {
+        this.playSound('minuteMarkerAudio')
+      }
+      console.log(this.minutes)
+      if (
+        this.marker.second.indexOf(this.seconds) > -1 &&
+        this.hours === 0 &&
+        this.minutes === 0
+      ) {
+        this.playSound('secondMarkerAudio')
+      }
+      if (
+        this.seconds <= this.counter &&
+        this.hours === 0 &&
+        this.minutes === 0
+      ) {
+        if (this.seconds === 0) {
+          this.playSound('hourMarkerAudio')
+          this.playSound('minuteMarkerAudio')
+          this.playSound('secondMarkerAudio')
+          this.playSound('counterAudio')
+        } else if (this.marker.second.indexOf(this.seconds) > -1) {
+          this.playSound('secondMarkerAudio')
+        } else {
+          this.playSound('counterAudio')
+        }
+      }
     },
     calculateDuration() {
       this.totalDuration =
@@ -152,31 +194,32 @@ export default {
     },
   },
   mounted() {
+    this.counterAudio = new Audio(require('@/assets/sounds/counter.mp3'))
+    this.hourMarkerAudio = new Audio(require('@/assets/sounds/hourMarker.mp3'))
+    this.minuteMarkerAudio = new Audio(
+      require('@/assets/sounds/minuteMarker.mp3')
+    )
+    this.secondMarkerAudio = new Audio(
+      require('@/assets/sounds/secondMarker.mp3')
+    )
     this.$settingsDB
       .collection('countDownTimerSettings')
+      .doc({ timerType: 'countDownTimer' })
       .get()
       .then((countDownTimerSettings) => {
-        if (!countDownTimerSettings.length) {
-          this.$settingsDB.collection('countDownTimerSettings').add({
-            timerType: 'countDownTimer',
-            marker: {
-              hour: { 1: false },
-              minute: {
-                45: false,
-                30: false,
-                15: false,
-                10: false,
-                5: false,
-                1: false,
-              },
-              second: { 45: false, 30: false, 15: false, 10: false, 5: false },
-            },
-
-            counter: 5,
-          })
-        } else {
-          console.log(countDownTimerSettings)
-        }
+        this.marker = countDownTimerSettings.marker
+        this.counter = countDownTimerSettings.counter
+      })
+      .catch(() => {
+        this.$settingsDB.collection('countDownTimerSettings').add({
+          timerType: 'countDownTimer',
+          marker: {
+            hour: [],
+            minute: [],
+            second: [],
+          },
+          counter: 5,
+        })
       })
   },
 }
